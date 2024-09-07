@@ -1,0 +1,22 @@
+https://karlley.hatenablog.jp/entry/2022/07/30/081553
+
+# database create
+psql -h localhost -U postgres -c "CREATE DATABASE memo_app"
+
+# create table & insert record
+psql -h localhost -U postgres -d memo_app -f ./init.sql
+
+psql -h localhost -U postgres  -l
+
+
+psql -h localhost -U postgres  -d memo_app -c "SELECT * FROM memos"
+
+
+
+$ vi ~/.pgpass
+
+ip       :port :db      :user   :pass
+localhost:5432:memo_app:postgres:postgres
+
+$ chmod 600 ~/.pgpass
+

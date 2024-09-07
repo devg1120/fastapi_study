@@ -1,0 +1,32 @@
+https://zenn.dev/shimakaze_soft/articles/4c0784d9a87751
+DBマイグレーションツールのAlembicの使い方
+
+
+
+$ pip install alembic
+$ pip install psycopg2-binary
+
+$ alembic init migrations
+
+psql -h localhost -U postgres -c "CREATE DATABASE testdb"
+
+
+alembic revision --autogenerate -m "create tables"
+
+$ alembic revision --autogenerate -m "create tables"
+   INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+   INFO  [alembic.runtime.migration] Will assume transactional DDL.
+   INFO  [alembic.autogenerate.compare] Detected added table 'users'
+     Generating /home/devg1120/fastapi_study/fastapi_02/alembic/test01/migrations/versions/a2990692367b_create_tables.py ...  done
+
+$  alembic upgrade head
+   INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+   INFO  [alembic.runtime.migration] Will assume transactional DDL.
+   INFO  [alembic.runtime.migration] Running upgrade  -> a2990692367b, create tables
+
+psql -h localhost -U postgres  -l
+psql -h localhost -U postgres  -d testdb -c "\d"
+psql -h localhost -U postgres  -d testdb -c "SELECT * FROM users"
+
+
+

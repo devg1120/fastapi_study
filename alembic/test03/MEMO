@@ -1,0 +1,126 @@
+
+https://scrapbox.io/PythonOsaka/Alembic%E3%81%A7%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86
+
+psql -h localhost -U postgres -c "CREATE DATABASE testdb3"
+psql -h localhost -U postgres -c "\l"
+
+alembic init mg_testdb3
+
+vi alembic.ini
+--------------------------------------------------------
+  #sqlalchemy.url = driver://user:pass@localhost/dbname
+  sqlalchemy.url = postgresql://postgres:postgres@localhost:5432/testdb3
+--------------------------------------------------------
+
+vi models.py
+--------------------------------------------------------
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import Session
+ 
+# engine = create_engine('sqlite:///test.db')
+engine = create_engine( "postgresql://postgres:postgres@localhost:5432/testdb3")
+
+session = Session(
+    autocommit = False,
+    autoflush = True,
+    bind = engine)
+
+Base = declarative_base()
+ 
+class User(Base):
+     __tablename__ = 'users'
+     id = Column(Integer, primary_key=True)
+     name = Column(String)
+     fullname = Column(String)
+     nickname = Column(String)
+ 
+     def __repr__(self):
+        return "<User('name={}', fullname={}, nickname={})>".format(
+                      self.name, self.fullname, self.nickname)
+
+
+--------------------------------------------------------
+ 
+
+vi env.py
+--------------------------------------------------------
+from models import User
+target_metadata = [
+    User.metadata
+]
+--------------------------------------------------------
+
+alembic revision --autogenerate -m "Initial"
+
+tree .
+.
+├── MEMO
+├── __pycache__
+│   └── models.cpython-310.pyc
+├── alembic.ini
+├── mg_testdb3
+│   ├── README
+│   ├── __pycache__
+│   │   └── env.cpython-310.pyc
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions
+│       ├── 3988266c5a4d_initial.py
+│       └── __pycache__
+│           └── 3988266c5a4d_initial.cpython-310.pyc
+└── models.py
+
+
+alembic upgrade head
+
+psql -h localhost -U postgres -d testdb3 -c "\d"
+psql -h localhost -U postgres -d testdb3 -c "select * from users where false;"
+
+*****************************************************************************
+## APPEND RECORD
+
+vi add_users.py
+--------------------------------------------------------
+from models import session, User
+
+userList=[
+  User(name='wendy', fullname='Wendy Williams', nickname='windy'),
+  User(name='mary', fullname='Mary Contrary', nickname='mary'),
+  User(name='fred', fullname='Fred Flintstone', nickname='freddy')
+]
+
+session.add_all(userList)
+session.commit()
+--------------------------------------------------------
+python add_users.py
+
+psql -h localhost -U postgres -d testdb3 -c "select * from users ;"
+
+
+
+*****************************************************************************
+## FIELD ADD
+
+
+vi models.py
+     password = Column(String)
+
+alembic revision --autogenerate -m "Add password field"
+
+psql -h localhost -U postgres -d testdb3 -c "select * from users where false;"
+
+----+------+----------+----------
+ id | name | fullname | nickname
+----+------+----------+----------
+
+alembic upgrade head
+
+psql -h localhost -U postgres -d testdb3 -c "select * from users where false;"
+
+----+------+----------+----------+----------
+ id | name | fullname | nickname | password 
+----+------+----------+----------+----------
+
+##############################################################################

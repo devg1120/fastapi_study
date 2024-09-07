@@ -1,0 +1,57 @@
+https://nmomos.com/tips/2021/01/23/fastapi-docker-2/
+
+$ docker-compose up -d
+  docker-compose up -d --build
+
+$ docker ps
+   ~/fastapi_study/fastapi_02$ docker ps
+   CONTAINER ID   IMAGE                  COMMAND                   CREATED          STATUS          PORTS                                       NAMES
+   e5e57cb3e35f   fastapi_02_server      "uvicorn app.api.ser…"   19 minutes ago   Up 19 minutes   0.0.0.0:8000->8000/tcp, :::8000->8000/tcp   fastapi_02_server_1
+   a609c1bca408   postgres:13.1-alpine   "docker-entrypoint.s…"   19 minutes ago   Up 19 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   fastapi_02_db_1
+   
+   
+$ docker exec -it fastapi_02_server_1  sh
+   /backend # pwd
+   /backend # ls
+   Dockerfile        alembic.ini       app               requirements.txt
+   /backend # 
+   /backend # alembic upgrade head
+   INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+   INFO  [alembic.runtime.migration] Will assume transactional DDL.
+   INFO  [alembic.runtime.migration] Running upgrade  -> 12056735bd4e, create_first_tables
+   
+   
+   
+$ docker exec -it fastapi_02_db_1   psql -h localhost -U postgres --dbname=postgres 
+$ docker exec -it fastapi_02_db_1   psql -h localhost -U postgres  
+
+
+$ docker exec -it fastapi_02_db_1  bash
+   bash-5.1# psql -h localhost -U postgres 
+   
+   postgres=# \l
+                                    List of databases
+      Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+   -----------+----------+----------+------------+------------+-----------------------
+    postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+    template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+              |          |          |            |            | postgres=CTc/postgres
+    template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+              |          |          |            |            | postgres=CTc/postgres
+   (3 rows)
+   
+   postgres=# \dt
+    public | alembic_version | table | postgres
+    public | hedgehogs       | table | postgres
+   
+   postgres=# # \d hedgehogs
+    id          | integer       |           | not null | nextval('hedgehogs_id_seq'::regclass)
+    name        | text          |           | not null | 
+    description | text          |           |          | 
+    color_type  | text          |           | not null | 
+    age         | numeric(10,2) |           | not null | 
+   
+   
+### local host to psql
+$ psql -h localhost -U postgres -d postgres
+

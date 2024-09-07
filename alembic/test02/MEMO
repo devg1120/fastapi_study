@@ -1,0 +1,22 @@
+https://qiita.com/penpenta/items/c993243c4ceee3840f30
+
+
+psql -h localhost -U postgres -c "CREATE DATABASE almebic"
+psql -h localhost -U postgres -c "\l"
+
+alembic init account
+vi alembic.ini
+  #sqlalchemy.url = driver://user:pass@localhost/dbname
+  sqlalchemy.url = postgresql://postgres:postgres@localhost:5432/almebic
+
+
+alembic revision -m "create account table"
+alembic upgrade head
+
+psql -h localhost -U postgres -d almebic -c "\d"
+psql -h localhost -U postgres -d almebic -c "select * from account where false;"
+
+alembic revision -m "add columns"
+alembic upgrade head
+psql -h localhost -U postgres -d almebic -c "select * from account where false;"
+
