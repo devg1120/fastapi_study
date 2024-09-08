@@ -1,0 +1,48 @@
+
+https://sqripts.com/2022/06/16/20408/
+
+PythonのORMライブラリ「SQLAlchemy」を「FastAPI」で使う
+
+
+docker-compose build
+docker-compose up -d
+
+# localhostのMySQLサーバに接続する場合
+$ mysql -u [ユーザー名] -p
+
+# localhostのMySQLサーバに接続する場合（ワンラインでパスワードまで渡す）
+$ mysql -u [ユーザー名] -p[パスワード ※ 平文で渡すとコマンド履歴にパスワードが載ってしまうので避けましょう]
+
+# 外部MySQLサーバに接続する場合
+$ mysql -u [ユーザー名] -p -h [host名] -P [ポート番号]
+
+mysql --ssl-mode=DISABLED --host=INSTANCE_IP_ADDRESS --user=root --password
+mysql --ssl-mode=DISABLED --host=localhost --user=root --password=secret
+
+mysql --user=johndoe --password app
+
+mysql --user=johndoe --host=127.0.0.1:3306 --password app
+
+docker exec -it 01_mysql_db_1  sh
+
+https://qiita.com/CyberMergina/items/f889519e6be19c46f5f4
+よく使うMySQLコマンド&構文集
+
+mysql --user=johndoe --password app
+Enter password:  secret
+
+mysql> show databases;
+mysql> use app;
+mysql> show tables;
+mysql> SELECT * FROM some_infos;
+
+curl -X 'POST' \
+  'http://127.0.0.1/info' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'desc=TEST2'
+
+Request URL
+http://127.0.0.1/info
+
+

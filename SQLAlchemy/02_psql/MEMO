@@ -1,0 +1,71 @@
+
+SQLAlchemyでテーブル設計とORMの操作
+https://zenn.dev/shimakaze_soft/articles/6e5e47851459f5
+
+SQLAlchemyのセッション・トランザクションを理解する
+https://sogo.dev/posts/2023/05/sqlalchemy-sessions-and-transactions
+
+docker-compose up -d
+
+psql -h localhost -U postgres -c "CREATE DATABASE testdb1"
+psql -h localhost -U postgres -c "\l"
+
+psql -h localhost -U postgres -d testdb1 -c "\d"
+
+# table create
+python3 ./user.py
+     or python3 ./_create.py
+
+psql -h localhost -U postgres -d testdb1 -c "select * from users where false;"
+psql -h localhost -U postgres -d testdb1 -c "select * from users ;"
+
+
+python3 ./_add.py 
+python3 ./_read.py 
+python3 ./_filter.py 
+python3 ./_delete.py 
+
+users = session.query(User).all()
+user = session.query(User).first()
+user = session.query(User).one()
+user = session.query(User).one_or_none()
+user_a = session.query(User).get(1)
+
+
+## exception
+from sqlalchemy.exc import SQLAlchemyError
+
+try:
+    # SQLAlchemyの操作を実行するコード
+    # ...
+except NoResultFound:
+    # レコードが見つからなかった場合の処理
+    # ...
+except MultipleResultsFound:
+    # 複数のレコードが見つかった場合の処理
+    # ...
+except InvalidRequestError:
+    # 無効な要求が行われた場合の処理
+    # ...
+except OperationalError:
+    # データベース接続などの操作エラーが発生した場合の処理
+    # ...
+except IntegrityError:
+    # データベースの整合性制約に違反した場合の処理
+    # ...
+except DataError:
+    # データベースに関連するデータエラーが発生した場合の処理
+    # ...
+except StatementError:
+    # SQLステートメントの実行中にエラーが発生した場合の処理
+    # ...
+except SQLAlchemyError:
+    # SQLAlchemyの他のエラーをキャッチするための一般的な例外処理
+    # ...
+except Exception:
+    # その他の一般的な例外をキャッチするためのブロック
+    # ...
+finally:
+    # 必要に応じてクリーンアップ処理を実行するブロック
+    # ...
+

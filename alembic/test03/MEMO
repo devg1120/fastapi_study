@@ -1,9 +1,24 @@
 
 https://scrapbox.io/PythonOsaka/Alembic%E3%81%A7%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86
 
+sudo systemctl start docker
+docker-compose up -d
+
 psql -h localhost -U postgres -c "CREATE DATABASE testdb3"
 psql -h localhost -U postgres -c "\l"
 
+
+############################################################
+alembic upgrade head
+# alembic downgrade base
+
+psql -h localhost -U postgres -d testdb3 -c "\d"
+psql -h localhost -U postgres -d testdb3 -c "select * from users where false;"
+psql -h localhost -U postgres -d testdb3 -c "select * from users ;"
+python add_users.py
+psql -h localhost -U postgres -d testdb3 -c "select * from users ;"
+
+############################################################
 alembic init mg_testdb3
 
 vi alembic.ini

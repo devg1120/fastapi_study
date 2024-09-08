@@ -1,0 +1,6 @@
+fastapi==0.63.0
+Hypercorn
+PyMySQL 
+python-multipart
+SQLAlchemy
+
