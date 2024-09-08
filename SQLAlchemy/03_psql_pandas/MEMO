@@ -1,0 +1,37 @@
+
+
+
+実践 SQLAlchemyとPandasでデータベース操作
+
+https://cpp-learning.com/sqlalchemy-pandas/
+
+
+
+docker-compose up -d
+
+psql -h localhost -U postgres -c "CREATE DATABASE testdb2"
+psql -h localhost -U postgres -c "\l"
+
+psql -h localhost -U postgres -d testdb2 -c "\d"
+
+
+
+# table create
+python3 ./user.py
+
+psql -h localhost -U postgres -d testdb2 -c "select * from users where false;"
+psql -h localhost -U postgres -d testdb2 -c "select * from users ;"
+
+# data load
+python3 InitData_load.py
+
+# query
+python3 SQLAlchemy_session.py
+python3 SQLAlchemy_pandas.py
+
+python3 ./_add.py 
+python3 ./_read.py 
+python3 ./_filter.py 
+python3 ./_delete.py 
+
+

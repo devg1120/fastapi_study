@@ -5,6 +5,13 @@ https://zenn.dev/shimakaze_soft/articles/6e5e47851459f5
 SQLAlchemyのセッション・トランザクションを理解する
 https://sogo.dev/posts/2023/05/sqlalchemy-sessions-and-transactions
 
+
+PythonのORMライブラリsqlalchemyで利用可能なコネクションプーリングの実装について調べてみた
+https://dev.classmethod.jp/articles/sqlalchemy-connection-pooling/
+
+
+
+
 docker-compose up -d
 
 psql -h localhost -U postgres -c "CREATE DATABASE testdb1"
